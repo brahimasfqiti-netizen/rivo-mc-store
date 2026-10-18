@@ -1,22 +1,28 @@
-# Rivo MC Store
+# Rivo MC Store (PWA)
 
-Official PWA Store for **Rivo MC** — ranks, kits & Discord roles.
+Professional official store for **Rivo MC** — ranks, kits, Discord roles & live Minecraft server status.
 
 ## Features
+- Live Minecraft server status (online players / max / version)
+- Server IP: `rivo.hostivo.vip`
+- Strong red neon hover effects + cursor glow
 - 6 ranks with Discord roles
 - New kits section
-- Strong red neon hover effects (mouse glow + card lift)
-- Cursor red glow follows mouse
+- Copy IP button
+- Discord integration
 - Docker ready (nginx alpine)
+- PWA ready
 
-## Run with Docker
+## Quick start
+Open `rivo-mc-store.html` in browser (or `index.html` on GitHub Pages).
+
+## Docker
 ```bash
 docker compose up -d --build
 ```
-Then open http://localhost:8080
+→ http://localhost:8080
 
-## Discord
-https://discord.gg/eeYv8PBqw
-
-## Logo
-Put `rivo-logo.webp` in the root (the red R neon logo).
+## Links
+- Discord: https://discord.gg/eeYv8PBqw
+- Server: rivo.hostivo.vip
+- GitHub: https://github.com/brahimasfqiti-netizen/rivo-mc-store
