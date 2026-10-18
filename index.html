@@ -4,502 +4,141 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#ff0033" />
-  <meta name="description" content="Rivo MC — Official Store | Ranks · Kits · Discord · Live Server Status" />
+  <meta name="description" content="Rivo MC Official Store" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="rivo-logo.webp" type="image/webp" />
   <title>Rivo MC | Official Store</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;600;700;800;900&display=swap');
-
-    :root {
-      --red: #ff0033;
-      --red-2: #ff1a4d;
-      --red-dim: rgba(255, 0, 51, 0.15);
-      --bg: #050507;
-      --card: #0c0c10;
-      --border: #1a1a22;
-      --text: #f2f2f5;
-      --muted: #8a8a9a;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Cairo', system-ui, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image:
-        radial-gradient(ellipse 90% 60% at 50% -30%, rgba(255,0,51,0.18) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 100% 80%, rgba(255,0,51,0.06) 0%, transparent 50%);
-    }
-
-    #cursorGlow {
-      position: fixed; width: 380px; height: 380px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,0,51,0.1) 0%, transparent 70%);
-      pointer-events: none; z-index: 9999; transform: translate(-50%,-50%);
-      opacity: 0; transition: opacity .3s;
-    }
-    body:hover #cursorGlow { opacity: 1; }
-
-    nav {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 1100px; margin: 0 auto; padding: 18px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo { display: flex; align-items: center; gap: 12px; }
-    .nav-logo img { width: 42px; height: 42px; filter: drop-shadow(0 0 8px var(--red)); }
-    .nav-logo span { font-family: 'Orbitron', sans-serif; font-weight: 700; letter-spacing: 2px; font-size: 1.1rem; }
-    .nav-links { display: flex; gap: 8px; }
-    .nav-links a {
-      color: var(--muted); text-decoration: none; padding: 8px 14px; border-radius: 8px;
-      font-weight: 600; font-size: .9rem; transition: .25s;
-    }
-    .nav-links a:hover { color: #fff; background: var(--red-dim); }
-
-    .hero { text-align: center; padding: 50px 20px 30px; position: relative; }
-    .logo-hero { display: inline-block; position: relative; margin-bottom: 20px; cursor: pointer; }
-    .logo-hero::after {
-      content: ''; position: absolute; inset: -30px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,0,51,.35) 0%, transparent 70%);
-      opacity: 0; transform: scale(.7); transition: .45s;
-    }
-    .logo-hero:hover::after { opacity: 1; transform: scale(1.15); }
-    .logo-hero img {
-      width: 170px; height: 170px;
-      filter: drop-shadow(0 0 18px var(--red)) drop-shadow(0 0 40px rgba(255,0,51,.45));
-      transition: .4s cubic-bezier(.22,1,.36,1);
-    }
-    .logo-hero:hover img {
-      filter: drop-shadow(0 0 28px #ff0033) drop-shadow(0 0 60px rgba(255,0,51,.85)) drop-shadow(0 0 90px rgba(255,0,51,.4));
-      transform: scale(1.07);
-    }
-    .hero h1 {
-      font-family: 'Orbitron', sans-serif; font-size: 2.8rem; font-weight: 900;
-      letter-spacing: 5px; margin-bottom: 8px;
-      text-shadow: 0 0 30px rgba(255,0,51,.5);
-    }
-    .hero .tagline {
-      color: var(--red); font-weight: 700; letter-spacing: 3px; font-size: 1rem;
-      text-transform: uppercase; text-shadow: 0 0 16px rgba(255,0,51,.55);
-      margin-bottom: 28px;
-    }
-
-    .status-bar {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
-      max-width: 700px; margin: 0 auto 35px; padding: 0 15px;
-    }
-    .status-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-      padding: 14px 20px; min-width: 160px; text-align: center;
-      transition: .35s; position: relative; overflow: hidden;
-    }
-    .status-card:hover {
-      border-color: var(--red); box-shadow: 0 0 25px rgba(255,0,51,.2);
-      transform: translateY(-3px);
-    }
-    .status-card .label { font-size: .75rem; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
-    .status-card .value { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.35rem; }
-    .status-card .value.online { color: #22c55e; text-shadow: 0 0 12px rgba(34,197,94,.5); }
-    .status-card .value.offline { color: #ef4444; }
-    .status-card .value.red { color: var(--red); text-shadow: 0 0 12px rgba(255,0,51,.5); }
-    .dot {
-      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-      margin-left: 6px; animation: blink 1.5s infinite;
-    }
-    .dot.green { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-    .dot.red { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-    .discord-cta { max-width: 520px; margin: 0 auto 40px; padding: 0 15px; }
-    .discord-btn {
-      display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(135deg, #0f0006, #1a000c); border: 1px solid rgba(255,0,51,.4);
-      border-radius: 14px; padding: 16px 22px; text-decoration: none; color: #fff;
-      transition: .35s; position: relative; overflow: hidden;
-    }
-    .discord-btn::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,0,51,.07), transparent);
-      transform: translateX(-100%); transition: .6s;
-    }
-    .discord-btn:hover {
-      border-color: var(--red); box-shadow: 0 0 35px rgba(255,0,51,.3);
-      transform: translateY(-3px);
-    }
-    .discord-btn:hover::before { transform: translateX(100%); }
-    .discord-btn .left strong { display: block; font-size: 1.05rem; }
-    .discord-btn .left span { font-size: .82rem; color: #aaa; }
-    .discord-btn .join {
-      background: linear-gradient(135deg, #ff0033, #c00); padding: 10px 20px;
-      border-radius: 10px; font-weight: 800; font-size: .9rem;
-      box-shadow: 0 0 15px rgba(255,0,51,.35); transition: .3s;
-    }
-    .discord-btn:hover .join { box-shadow: 0 0 28px rgba(255,0,51,.7); transform: scale(1.05); }
-
-    .story { max-width: 680px; margin: 0 auto 50px; padding: 0 20px; text-align: center; }
-    .story h2 {
-      font-family: 'Orbitron', sans-serif; color: var(--red); font-size: 1.4rem;
-      letter-spacing: 3px; margin-bottom: 12px; text-shadow: 0 0 18px rgba(255,0,51,.45);
-    }
-    .story p { color: var(--muted); line-height: 1.85; font-size: 1rem; }
-
-    .section-title {
-      text-align: center; font-family: 'Orbitron', sans-serif; font-size: 1.7rem;
-      letter-spacing: 3px; margin-bottom: 30px; color: #fff;
-      text-shadow: 0 0 22px rgba(255,0,51,.35);
-    }
-
-    .ranks { max-width: 1120px; margin: 0 auto 55px; padding: 0 15px; }
-    .ranks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
-    .rank-card {
-      background: linear-gradient(180deg, #0e0e14 0%, #09090d 100%);
-      border: 1px solid var(--border); border-radius: 18px; padding: 26px 18px 18px;
-      position: relative; overflow: hidden; cursor: pointer;
-      transition: .4s cubic-bezier(.22,1,.36,1);
-    }
-    .rank-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--red), transparent); opacity: .5; transition: .3s;
-    }
-    .rank-card::after {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(255,0,51,.12) 0%, transparent 60%);
-      opacity: 0; transition: .4s; pointer-events: none;
-    }
-    .rank-card:hover {
-      border-color: var(--red); transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 16px 42px rgba(255,0,51,.22), 0 0 28px rgba(255,0,51,.12);
-    }
-    .rank-card:hover::before { opacity: 1; height: 4px; box-shadow: 0 0 14px var(--red); }
-    .rank-card:hover::after { opacity: 1; }
-    .rank-card.featured { border-color: rgba(255,0,51,.45); box-shadow: 0 0 22px rgba(255,0,51,.18); }
-    .rank-card.featured:hover { box-shadow: 0 18px 48px rgba(255,0,51,.32), 0 0 45px rgba(255,0,51,.2); }
-
-    .badge {
-      position: absolute; top: 12px; left: 12px;
-      background: linear-gradient(135deg, #ff0033, #b00); color: #fff;
-      font-size: .65rem; font-weight: 800; padding: 4px 11px; border-radius: 20px;
-      letter-spacing: 1.2px; box-shadow: 0 0 12px rgba(255,0,51,.5);
-    }
-    .rank-name {
-      font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700;
-      text-align: center; margin-bottom: 6px; transition: .3s;
-    }
-    .rank-card:hover .rank-name { text-shadow: 0 0 18px rgba(255,0,51,.75); }
-    .rank-price {
-      text-align: center; font-size: 1.65rem; font-weight: 900; color: var(--red);
-      margin: 10px 0 14px; text-shadow: 0 0 14px rgba(255,0,51,.45); transition: .3s;
-    }
-    .rank-card:hover .rank-price { text-shadow: 0 0 24px #ff0033; transform: scale(1.07); }
-    .perks { list-style: none; margin-bottom: 18px; font-size: .92rem; color: var(--muted); }
-    .perks li { padding: 5px 0; display: flex; gap: 8px; align-items: center; transition: .25s; }
-    .rank-card:hover .perks li { color: #bbb; }
-    .perks li::before { content: '▸'; color: var(--red); text-shadow: 0 0 7px var(--red); }
-
-    .buy-btn {
-      display: block; width: 100%; border: none; border-radius: 12px; padding: 13px;
-      background: linear-gradient(135deg, #ff0033, #a00); color: #fff;
-      font-family: 'Cairo', sans-serif; font-size: 1.05rem; font-weight: 800;
-      letter-spacing: 1px; cursor: pointer; position: relative; overflow: hidden;
-      box-shadow: 0 0 14px rgba(255,0,51,.3); transition: .3s cubic-bezier(.22,1,.36,1);
-    }
-    .buy-btn::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); transition: .5s;
-    }
-    .buy-btn:hover {
-      background: linear-gradient(135deg, #ff1a4d, #ff0033);
-      box-shadow: 0 0 32px rgba(255,0,51,.65); transform: scale(1.03);
-    }
-    .buy-btn:hover::before { left: 100%; }
-    .buy-btn small { display: block; font-size: .7rem; font-weight: 500; opacity: .85; margin-top: 3px; }
-
-    .kits { max-width: 900px; margin: 0 auto 55px; padding: 0 15px; }
-    .kit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
-    .kit-card {
-      background: #0c0c12; border: 1px solid var(--border); border-radius: 14px;
-      padding: 20px 14px; text-align: center; cursor: pointer; position: relative; overflow: hidden;
-      transition: .35s cubic-bezier(.22,1,.36,1);
-    }
-    .kit-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle, rgba(255,0,51,.1) 0%, transparent 70%); opacity: 0; transition: .35s;
-    }
-    .kit-card:hover {
-      border-color: var(--red); transform: translateY(-7px) scale(1.03);
-      box-shadow: 0 12px 28px rgba(255,0,51,.22);
-    }
-    .kit-card:hover::before { opacity: 1; }
-    .kit-name { font-weight: 700; font-size: 1.08rem; margin-bottom: 6px; transition: .3s; }
-    .kit-card:hover .kit-name { text-shadow: 0 0 12px rgba(255,0,51,.55); }
-    .kit-price { color: var(--red); font-weight: 900; font-size: 1.2rem; margin-bottom: 12px; transition: .3s; }
-    .kit-card:hover .kit-price { text-shadow: 0 0 18px #ff0033; transform: scale(1.08); }
-    .kit-btn {
-      width: 100%; background: transparent; border: 1.5px solid var(--red); color: var(--red);
-      padding: 8px 14px; border-radius: 9px; font-weight: 700; cursor: pointer; transition: .3s; position: relative; z-index: 1;
-    }
-    .kit-btn:hover { background: var(--red); color: #fff; box-shadow: 0 0 22px rgba(255,0,51,.55); }
-
-    .join-box {
-      max-width: 560px; margin: 0 auto 50px; padding: 22px; text-align: center;
-      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-    }
-    .join-box h3 { font-family: 'Orbitron', sans-serif; color: var(--red); margin-bottom: 12px; letter-spacing: 2px; }
-    .ip-box {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      background: #08080c; border: 1px solid #222; border-radius: 10px; padding: 12px 18px;
-      font-family: 'Orbitron', monospace; font-size: 1.1rem; margin: 12px 0; cursor: pointer; transition: .25s;
-    }
-    .ip-box:hover { border-color: var(--red); box-shadow: 0 0 18px rgba(255,0,51,.2); }
-    .ip-box span { color: var(--muted); font-size: .8rem; }
-
-    footer {
-      text-align: center; padding: 30px 20px 40px; border-top: 1px solid #15151a;
-      color: #555; font-size: .88rem;
-    }
-    footer a { color: var(--red); text-decoration: none; }
-    footer a:hover { text-shadow: 0 0 10px var(--red); }
-
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 1.9rem; }
-      .logo-hero img { width: 130px; height: 130px; }
-      .nav-links { display: none; }
-      .status-bar { gap: 10px; }
-      .status-card { min-width: 140px; padding: 12px 14px; }
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Cairo:wght@400;600;700;800&display=swap');
+    :root { --red:#ff0033; --bg:#050507; --card:#0c0c10; --border:#1a1a22; --muted:#8a8a9a; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:#f2f2f5;font-family:Cairo,sans-serif;min-height:100vh;background-image:radial-gradient(ellipse 90% 60% at 50% -30%,rgba(255,0,51,.18),transparent 55%)}
+    #cursorGlow{position:fixed;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(255,0,51,.1),transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0}
+    body:hover #cursorGlow{opacity:1}
+    nav{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:18px 20px;border-bottom:1px solid var(--border)}
+    .nav-logo{display:flex;align-items:center;gap:12px}
+    .nav-logo .r-icon{width:42px;height:42px;background:linear-gradient(135deg,#ff0033,#990022);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:Orbitron;font-weight:900;font-size:1.3rem;color:#fff;box-shadow:0 0 15px rgba(255,0,51,.5)}
+    .nav-logo span{font-family:Orbitron;font-weight:700;letter-spacing:2px}
+    .hero{text-align:center;padding:50px 20px 30px}
+    .logo-hero{display:inline-flex;width:160px;height:160px;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(255,0,51,.25),transparent 70%);border-radius:50%;margin-bottom:20px;cursor:pointer;transition:.4s}
+    .logo-hero:hover{transform:scale(1.08);filter:drop-shadow(0 0 30px #ff0033)}
+    .logo-hero .r-big{width:120px;height:120px;background:linear-gradient(145deg,#fff,#ddd);clip-path:polygon(20% 10%,80% 10%,80% 45%,55% 45%,80% 90%,55% 90%,30% 45%,30% 90%,20% 90%);box-shadow:0 0 20px rgba(255,0,51,.6);border:3px solid #ff0033;filter:drop-shadow(0 0 12px #ff0033)}
+    .r-letter{font-family:Orbitron;font-size:5rem;font-weight:900;color:#fff;text-shadow:0 0 20px #ff0033,0 0 40px rgba(255,0,51,.8);line-height:1}
+    h1{font-family:Orbitron;font-size:2.6rem;font-weight:900;letter-spacing:4px;text-shadow:0 0 25px rgba(255,0,51,.5);margin-bottom:8px}
+    .tagline{color:var(--red);font-weight:700;letter-spacing:3px;text-transform:uppercase;text-shadow:0 0 14px rgba(255,0,51,.5);margin-bottom:28px}
+    .status-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;max-width:700px;margin:0 auto 35px;padding:0 15px}
+    .status-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 20px;min-width:150px;text-align:center;transition:.3s}
+    .status-card:hover{border-color:var(--red);box-shadow:0 0 20px rgba(255,0,51,.2)}
+    .status-card .label{font-size:.75rem;color:var(--muted);margin-bottom:4px}
+    .status-card .value{font-family:Orbitron;font-weight:700;font-size:1.3rem}
+    .online{color:#22c55e}.offline{color:#ef4444}.red{color:var(--red)}
+    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:6px;animation:blink 1.5s infinite}
+    .dot.green{background:#22c55e;box-shadow:0 0 8px #22c55e}.dot.red{background:#ef4444;box-shadow:0 0 8px #ef4444}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+    .discord-cta{max-width:520px;margin:0 auto 40px;padding:0 15px}
+    .discord-btn{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0f0006,#1a000c);border:1px solid rgba(255,0,51,.4);border-radius:14px;padding:16px 22px;text-decoration:none;color:#fff;transition:.3s}
+    .discord-btn:hover{border-color:var(--red);box-shadow:0 0 30px rgba(255,0,51,.3);transform:translateY(-3px)}
+    .discord-btn .join{background:linear-gradient(135deg,#ff0033,#c00);padding:10px 20px;border-radius:10px;font-weight:800;box-shadow:0 0 15px rgba(255,0,51,.35)}
+    .story{max-width:680px;margin:0 auto 50px;padding:0 20px;text-align:center}
+    .story h2{font-family:Orbitron;color:var(--red);font-size:1.3rem;letter-spacing:2px;margin-bottom:12px}
+    .story p{color:var(--muted);line-height:1.8}
+    .section-title{text-align:center;font-family:Orbitron;font-size:1.6rem;letter-spacing:3px;margin-bottom:28px;text-shadow:0 0 20px rgba(255,0,51,.3)}
+    .ranks{max-width:1120px;margin:0 auto 55px;padding:0 15px}
+    .ranks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px}
+    .rank-card{background:linear-gradient(180deg,#0e0e14,#09090d);border:1px solid var(--border);border-radius:16px;padding:24px 16px 16px;position:relative;overflow:hidden;cursor:pointer;transition:.35s}
+    .rank-card:hover{border-color:var(--red);transform:translateY(-8px);box-shadow:0 14px 36px rgba(255,0,51,.2)}
+    .rank-card.featured{border-color:rgba(255,0,51,.45)}
+    .badge{position:absolute;top:12px;left:12px;background:linear-gradient(135deg,#ff0033,#b00);color:#fff;font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:20px}
+    .rank-name{font-family:Orbitron;font-size:1.35rem;font-weight:700;text-align:center;margin-bottom:6px}
+    .rank-price{text-align:center;font-size:1.55rem;font-weight:900;color:var(--red);margin:10px 0 12px;text-shadow:0 0 12px rgba(255,0,51,.4)}
+    .perks{list-style:none;margin-bottom:16px;font-size:.9rem;color:var(--muted)}
+    .perks li{padding:4px 0}.perks li::before{content:'▸ ';color:var(--red)}
+    .buy-btn{display:block;width:100%;border:none;border-radius:12px;padding:12px;background:linear-gradient(135deg,#ff0033,#a00);color:#fff;font-family:Cairo;font-size:1rem;font-weight:800;cursor:pointer;box-shadow:0 0 12px rgba(255,0,51,.3);transition:.3s}
+    .buy-btn:hover{background:linear-gradient(135deg,#ff1a4d,#ff0033);box-shadow:0 0 28px rgba(255,0,51,.6);transform:scale(1.03)}
+    .buy-btn small{display:block;font-size:.7rem;opacity:.85;margin-top:2px}
+    .kits{max-width:900px;margin:0 auto 55px;padding:0 15px}
+    .kit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+    .kit-card{background:#0c0c12;border:1px solid var(--border);border-radius:12px;padding:18px 12px;text-align:center;cursor:pointer;transition:.3s}
+    .kit-card:hover{border-color:var(--red);transform:translateY(-6px);box-shadow:0 10px 24px rgba(255,0,51,.2)}
+    .kit-name{font-weight:700;margin-bottom:6px}.kit-price{color:var(--red);font-weight:900;margin-bottom:10px}
+    .kit-btn{width:100%;background:transparent;border:1.5px solid var(--red);color:var(--red);padding:8px;border-radius:8px;font-weight:700;cursor:pointer;transition:.25s}
+    .kit-btn:hover{background:var(--red);color:#fff}
+    .join-box{max-width:560px;margin:0 auto 50px;padding:20px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:14px}
+    .join-box h3{font-family:Orbitron;color:var(--red);margin-bottom:10px}
+    .ip-box{display:flex;align-items:center;justify-content:center;gap:10px;background:#08080c;border:1px solid #222;border-radius:10px;padding:12px 16px;font-family:Orbitron;font-size:1.05rem;margin:12px 0;cursor:pointer;transition:.25s}
+    .ip-box:hover{border-color:var(--red)}
+    footer{text-align:center;padding:28px 20px 40px;border-top:1px solid #15151a;color:#555;font-size:.88rem}
+    footer a{color:var(--red);text-decoration:none}
+    @media(max-width:600px){h1{font-size:1.8rem}.r-letter{font-size:3.5rem}}
   </style>
 </head>
 <body>
   <div id="cursorGlow"></div>
-
   <nav>
-    <div class="nav-logo">
-      <img src="rivo-logo.webp" alt="Rivo" />
-      <span>RIVO MC</span>
-    </div>
-    <div class="nav-links">
-      <a href="#ranks">Ranks</a>
-      <a href="#kits">Kits</a>
-      <a href="https://discord.gg/eeYv8PBqw" target="_blank">Discord</a>
-    </div>
+    <div class="nav-logo"><div class="r-icon">R</div><span>RIVO MC</span></div>
   </nav>
-
   <section class="hero">
-    <div class="logo-hero">
-      <img src="rivo-logo.webp" alt="Rivo MC Logo" />
-    </div>
+    <div class="logo-hero"><div class="r-letter">R</div></div>
     <h1>RIVO MC</h1>
     <div class="tagline">Official Store · Live Server</div>
   </section>
-
   <div class="status-bar">
-    <div class="status-card">
-      <div class="label">SERVER STATUS</div>
-      <div class="value" id="serverStatus">—</div>
-    </div>
-    <div class="status-card">
-      <div class="label">PLAYERS ONLINE</div>
-      <div class="value red" id="playersOnline">—</div>
-    </div>
-    <div class="status-card">
-      <div class="label">VERSION</div>
-      <div class="value" id="serverVersion" style="font-size:1rem;color:#ccc">—</div>
-    </div>
+    <div class="status-card"><div class="label">SERVER STATUS</div><div class="value" id="serverStatus">—</div></div>
+    <div class="status-card"><div class="label">PLAYERS ONLINE</div><div class="value red" id="playersOnline">—</div></div>
+    <div class="status-card"><div class="label">VERSION</div><div class="value" id="serverVersion" style="font-size:1rem;color:#ccc">—</div></div>
   </div>
-
   <div class="discord-cta">
     <a class="discord-btn" href="https://discord.gg/eeYv8PBqw" target="_blank">
-      <div class="left">
-        <strong>انضم لديسكورد Rivo MC</strong>
-        <span>Roles · Support · News · Community</span>
-      </div>
+      <div><strong>انضم لديسكورد Rivo MC</strong><br><span style="font-size:.82rem;color:#aaa">Roles · Support · News</span></div>
       <div class="join">Join Discord</div>
     </a>
   </div>
-
   <section class="story">
     <h2>✦ STORY OF RIVO MC ✦</h2>
-    <p>
-      في عالم الظلام والنيون، يظهر <strong style="color:var(--red)">Rivo MC</strong> كرمز القوة والتفوق.
-      من الرتب السفلية إلى القمة، كل Rank يعطيك صلاحيات أقوى، Kits أقوى، وRoles حصرية في الديسكورد.
-      اختر رتبتك وكن جزء من الأسطورة.
-    </p>
+    <p>في عالم الظلام والنيون، يظهر <strong style="color:var(--red)">Rivo MC</strong> كرمز القوة والتفوق. كل Rank يعطيك صلاحيات أقوى وRoles حصرية في الديسكورد.</p>
   </section>
-
   <div class="join-box">
     <h3>HOW TO JOIN</h3>
-    <p style="color:var(--muted);font-size:.9rem;margin-bottom:8px">انسخ الـ IP وحطه في Minecraft</p>
-    <div class="ip-box" id="copyIp" title="اضغط للنسخ">
-      rivo.hostivo.vip
-      <span id="copyHint">(اضغط للنسخ)</span>
-    </div>
-    <p style="color:#666;font-size:.8rem">Java 1.16 – 1.21+ · Cross-play ممكن</p>
+    <p style="color:var(--muted);font-size:.9rem">انسخ الـ IP وحطه في Minecraft</p>
+    <div class="ip-box" id="copyIp">rivo.hostivo.vip <span id="copyHint" style="color:var(--muted);font-size:.8rem">(اضغط للنسخ)</span></div>
+    <p style="color:#666;font-size:.8rem">Java 1.16 – 1.21+</p>
   </div>
-
   <section class="ranks" id="ranks">
     <h2 class="section-title">✦ 6 RANKS ✦</h2>
     <div class="ranks-grid">
-      <div class="rank-card">
-        <div class="rank-name">IRON</div>
-        <div class="rank-price">$4.99</div>
-        <ul class="perks">
-          <li>Discord Role: Iron</li>
-          <li>Basic Kit</li>
-          <li>/fly في المناطق الآمنة</li>
-          <li>Prefix رمادي</li>
-        </ul>
-        <button class="buy-btn">BUY NOW<small>يُفعّل فوراً + Role</small></button>
-      </div>
-      <div class="rank-card">
-        <div class="rank-name">GOLD</div>
-        <div class="rank-price">$9.99</div>
-        <ul class="perks">
-          <li>Discord Role: Gold</li>
-          <li>Gold Kit + Iron Kit</li>
-          <li>/nick</li>
-          <li>Prefix ذهبي</li>
-          <li>أولوية في الدخول</li>
-        </ul>
-        <button class="buy-btn">BUY NOW<small>يُفعّل فوراً + Role</small></button>
-      </div>
-      <div class="rank-card featured">
-        <div class="badge">POPULAR</div>
-        <div class="rank-name">DIAMOND</div>
-        <div class="rank-price">$19.99</div>
-        <ul class="perks">
-          <li>Discord Role: Diamond</li>
-          <li>Diamond Kit كامل</li>
-          <li>/fly في كل مكان</li>
-          <li>/heal + /feed</li>
-          <li>Prefix أزرق نيون</li>
-        </ul>
-        <button class="buy-btn">BUY NOW<small>يُفعّل فوراً + Role</small></button>
-      </div>
-      <div class="rank-card">
-        <div class="rank-name">EMERALD</div>
-        <div class="rank-price">$29.99</div>
-        <ul class="perks">
-          <li>Discord Role: Emerald</li>
-          <li>Emerald Kit + جميع السابقة</li>
-          <li>Custom Prefix</li>
-          <li>Particles خاصة</li>
-          <li>أولوية Support</li>
-        </ul>
-        <button class="buy-btn">BUY NOW<small>يُفعّل فوراً + Role</small></button>
-      </div>
-      <div class="rank-card">
-        <div class="rank-name">NETHERITE</div>
-        <div class="rank-price">$49.99</div>
-        <ul class="perks">
-          <li>Discord Role: Netherite</li>
-          <li>Netherite Full Kit</li>
-          <li>جميع الصلاحيات السابقة</li>
-          <li>Custom Particle + Trail</li>
-          <li>اسم ملون في الشات</li>
-        </ul>
-        <button class="buy-btn">BUY NOW<small>يُفعّل فوراً + Role</small></button>
-      </div>
-      <div class="rank-card featured">
-        <div class="badge">ULTIMATE</div>
-        <div class="rank-name">RIVO</div>
-        <div class="rank-price">$79.99</div>
-        <ul class="perks">
-          <li>Discord Role: RIVO (حصري)</li>
-          <li>Ultimate Kit + كل شيء</li>
-          <li>صلاحيات شبه Admin</li>
-          <li>Custom Title في السيرفر</li>
-          <li>وصول مبكر للميزات الجديدة</li>
-          <li>اسم خاص في الديسكورد</li>
-        </ul>
-        <button class="buy-btn">BUY NOW<small>يُفعّل فوراً + Role</small></button>
-      </div>
+      <div class="rank-card"><div class="rank-name">IRON</div><div class="rank-price">$4.99</div><ul class="perks"><li>Discord Role: Iron</li><li>Basic Kit</li><li>/fly آمن</li></ul><button class="buy-btn">BUY NOW<small>Role فوري</small></button></div>
+      <div class="rank-card"><div class="rank-name">GOLD</div><div class="rank-price">$9.99</div><ul class="perks"><li>Discord Role: Gold</li><li>Gold Kit</li><li>/nick</li></ul><button class="buy-btn">BUY NOW<small>Role فوري</small></button></div>
+      <div class="rank-card featured"><div class="badge">POPULAR</div><div class="rank-name">DIAMOND</div><div class="rank-price">$19.99</div><ul class="perks"><li>Discord Role: Diamond</li><li>Diamond Kit</li><li>/fly كل مكان</li><li>/heal + /feed</li></ul><button class="buy-btn">BUY NOW<small>Role فوري</small></button></div>
+      <div class="rank-card"><div class="rank-name">EMERALD</div><div class="rank-price">$29.99</div><ul class="perks"><li>Discord Role: Emerald</li><li>Emerald Kit</li><li>Custom Prefix</li></ul><button class="buy-btn">BUY NOW<small>Role فوري</small></button></div>
+      <div class="rank-card"><div class="rank-name">NETHERITE</div><div class="rank-price">$49.99</div><ul class="perks"><li>Discord Role: Netherite</li><li>Netherite Kit</li><li>Particles</li></ul><button class="buy-btn">BUY NOW<small>Role فوري</small></button></div>
+      <div class="rank-card featured"><div class="badge">ULTIMATE</div><div class="rank-name">RIVO</div><div class="rank-price">$79.99</div><ul class="perks"><li>Discord Role: RIVO</li><li>Ultimate Kit</li><li>شبه Admin</li><li>وصول مبكر</li></ul><button class="buy-btn">BUY NOW<small>Role فوري</small></button></div>
     </div>
   </section>
-
-  <section class="kits" id="kits">
+  <section class="kits">
     <h2 class="section-title">✦ NEW KITS ✦</h2>
     <div class="kit-grid">
-      <div class="kit-card">
-        <div class="kit-name">Starter Kit</div>
-        <div class="kit-price">$2.99</div>
-        <button class="kit-btn">BUY KIT</button>
-      </div>
-      <div class="kit-card">
-        <div class="kit-name">PvP Kit</div>
-        <div class="kit-price">$7.99</div>
-        <button class="kit-btn">BUY KIT</button>
-      </div>
-      <div class="kit-card">
-        <div class="kit-name">Builder Kit</div>
-        <div class="kit-price">$5.99</div>
-        <button class="kit-btn">BUY KIT</button>
-      </div>
-      <div class="kit-card">
-        <div class="kit-name">Rivo Special</div>
-        <div class="kit-price">$14.99</div>
-        <button class="kit-btn">BUY KIT</button>
-      </div>
+      <div class="kit-card"><div class="kit-name">Starter</div><div class="kit-price">$2.99</div><button class="kit-btn">BUY</button></div>
+      <div class="kit-card"><div class="kit-name">PvP</div><div class="kit-price">$7.99</div><button class="kit-btn">BUY</button></div>
+      <div class="kit-card"><div class="kit-name">Builder</div><div class="kit-price">$5.99</div><button class="kit-btn">BUY</button></div>
+      <div class="kit-card"><div class="kit-name">Rivo Special</div><div class="kit-price">$14.99</div><button class="kit-btn">BUY</button></div>
     </div>
   </section>
-
-  <footer>
-    <p>© 2026 Rivo MC · All rights reserved</p>
-    <p style="margin-top:8px">
-      <a href="https://discord.gg/eeYv8PBqw" target="_blank">Discord</a> ·
-      <a href="https://github.com/brahimasfqiti-netizen/rivo-mc-store" target="_blank">GitHub</a>
-    </p>
-  </footer>
-
+  <footer><p>© 2026 Rivo MC</p><p style="margin-top:8px"><a href="https://discord.gg/eeYv8PBqw">Discord</a> · <a href="https://github.com/brahimasfqiti-netizen/rivo-mc-store">GitHub</a></p></footer>
   <script>
-    const SERVER_IP = 'rivo.hostivo.vip';
-
-    const glow = document.getElementById('cursorGlow');
-    document.addEventListener('mousemove', e => {
-      glow.style.left = e.clientX + 'px';
-      glow.style.top = e.clientY + 'px';
-    });
-
-    document.getElementById('copyIp').addEventListener('click', () => {
-      navigator.clipboard.writeText(SERVER_IP).then(() => {
-        document.getElementById('copyHint').textContent = '✓ تم النسخ!';
-        setTimeout(() => document.getElementById('copyHint').textContent = '(اضغط للنسخ)', 2000);
-      });
-    });
-
-    async function fetchServerStatus() {
-      const statusEl = document.getElementById('serverStatus');
-      const playersEl = document.getElementById('playersOnline');
-      const versionEl = document.getElementById('serverVersion');
-      try {
-        const res = await fetch('https://api.mcsrvstat.us/3/' + encodeURIComponent(SERVER_IP));
-        const data = await res.json();
-        if (data.online) {
-          statusEl.innerHTML = 'ONLINE <span class="dot green"></span>';
-          statusEl.className = 'value online';
-          playersEl.textContent = (data.players?.online ?? 0) + ' / ' + (data.players?.max ?? '?');
-          versionEl.textContent = data.version || '—';
-        } else {
-          statusEl.innerHTML = 'OFFLINE <span class="dot red"></span>';
-          statusEl.className = 'value offline';
-          playersEl.textContent = '0';
-          versionEl.textContent = '—';
-        }
-      } catch (e) {
-        statusEl.innerHTML = '—';
-        playersEl.textContent = '—';
-        versionEl.textContent = '—';
-      }
+    const SERVER_IP='rivo.hostivo.vip';
+    const glow=document.getElementById('cursorGlow');
+    document.addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+    document.getElementById('copyIp').onclick=()=>{navigator.clipboard.writeText(SERVER_IP).then(()=>{document.getElementById('copyHint').textContent='✓ تم';setTimeout(()=>document.getElementById('copyHint').textContent='(اضغط للنسخ)',2000)})};
+    async function fetchStatus(){
+      const s=document.getElementById('serverStatus'),p=document.getElementById('playersOnline'),v=document.getElementById('serverVersion');
+      try{
+        const r=await fetch('https://api.mcsrvstat.us/3/'+encodeURIComponent(SERVER_IP));
+        const d=await r.json();
+        if(d.online){s.innerHTML='ONLINE <span class="dot green"></span>';s.className='value online';p.textContent=(d.players?.online??0)+' / '+(d.players?.max??'?');v.textContent=d.version||'—';}
+        else{s.innerHTML='OFFLINE <span class="dot red"></span>';s.className='value offline';p.textContent='0';v.textContent='—';}
+      }catch(e){s.textContent='—';p.textContent='—';v.textContent='—';}
     }
-    fetchServerStatus();
-    setInterval(fetchServerStatus, 60000);
-
-    document.querySelectorAll('.buy-btn, .kit-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        alert('سيتم توجيهك لصفحة الدفع قريباً\nJoin Discord أولاً للحصول على الـ Role');
-      });
-    });
+    fetchStatus();setInterval(fetchStatus,60000);
+    document.querySelectorAll('.buy-btn,.kit-btn').forEach(b=>b.onclick=()=>alert('Join Discord أولاً للحصول على الـ Role'));
   </script>
 </body>
 </html>
