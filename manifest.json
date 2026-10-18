@@ -6,13 +6,5 @@
   "display": "standalone",
   "background_color": "#050505",
   "theme_color": "#ff0033",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "rivo-logo.webp",
-      "sizes": "512x512",
-      "type": "image/webp",
-      "purpose": "any maskable"
-    }
-  ]
+  "orientation": "portrait-primary"
 }

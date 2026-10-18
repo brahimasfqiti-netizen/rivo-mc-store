@@ -5,6 +5,7 @@ Professional official store for **Rivo MC** — ranks, kits, Discord roles & liv
 ## Features
 - Live Minecraft server status (online players / max / version)
 - Server IP: `rivo.hostivo.vip`
+- Logo embedded in HTML (no external file needed for deploy)
 - Strong red neon hover effects + cursor glow
 - 6 ranks with Discord roles
 - New kits section
@@ -14,9 +15,9 @@ Professional official store for **Rivo MC** — ranks, kits, Discord roles & liv
 - PWA ready
 
 ## Quick start
-Open `rivo-mc-store.html` in browser (or `index.html` on GitHub Pages).
+Open `index.html` in browser.
 
-## Docker
+## Docker / Render
 ```bash
 docker compose up -d --build
 ```
